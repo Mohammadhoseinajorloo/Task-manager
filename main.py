@@ -1,58 +1,8 @@
+from database import DataBase
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from io import BytesIO
-import sqlite3
-import os
+import bcrypt
 
-class DataBase:
-
-    instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if cls.instance is None:
-            cls.instance = super().__new__(DataBase)
-            return cls.instance
-        return cls.instance
-
-
-    def __init__(self, db_name:str):
-        self.name = db_name
-        self.conn = sqlite3.connect(self.name)
-        self.cursor = self.conn.cursor()
-
-
-    def __convert_dict_query(self, dic:dict) -> str:
-
-        keys = ""
-        values = ""
-        i = 0
-        for k, v in dic.items():
-            if i < len(dic) - 1:
-                keys += f"{k},"
-                values += f"'{v}',"
-                i += 1
-            else:
-                keys += f"{k}"
-                values += f"'{v}'"
-
-        return keys, values
-
-
-    def create(self, table:str, col:dict) -> None:
-        columns , _ = self.__convert_dict_query(col)
-        self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table}({columns})")
-        self.conn.commit()
-        return
-
-
-
-    def insert(self, table:str, values:dict):
-        columns, values = self.__convert_dict_query(values)
-        self.cursor.execute(f"INSERT INTO {table} ({columns}) VALUES ({values})")
-        self.conn.commit()
-        return
-
-    def __del__(self):
-        self.conn.close()
 
 
 class HttpHandler(BaseHTTPRequestHandler):
@@ -60,6 +10,15 @@ class HttpHandler(BaseHTTPRequestHandler):
     def set_headers(self):
         self.send_header(keyword="countent-type", value="application/json")
         self.end_headers()
+
+
+    def create_salt(self) -> str:
+        return bcrypt.gensalt(rounds=12)
+
+
+    def hash_pass(self, password:str):
+        salt = self.create_salt()
+        return bcrypt.hashpw(password, salt)
 
 
     def do_GET(self):
@@ -81,6 +40,7 @@ class HttpHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(404)
 
+
     def do_POST(self):
 
         if self.path == "/Regester":
@@ -100,6 +60,9 @@ class HttpHandler(BaseHTTPRequestHandler):
                 key = item.split("=")[0]
                 value = item.split("=")[1]
                 post_dict[key] = value
+
+            post_dict["password"] = self.hash_pass(post_dict["password"].encode())
+            post_dict["password"] = post_dict["password"].decode()
 
             db = DataBase(db_name="users.db")
             db.create(table="users", col=post_dict)
