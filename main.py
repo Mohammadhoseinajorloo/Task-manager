@@ -24,18 +24,20 @@ class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
 
         if self.path == "/":
+            self.path = "/index.html"
+            file_to_open = open(self.path[1:]).read()
+            print(file_to_open)
             self.send_response(200)
             self.set_headers()
-            response = BytesIO()
-            response.write(b"home")
-            self.wfile.write(response.getvalue())
+            self.wfile.write(bytes(file_to_open, "utf-8"))
+
 
         elif self.path == "/Regester":
+            self.path == "/regester.html"
+            file_to_open = open(self.path[1:]).read()
             self.send_response(200)
             self.set_headers()
-            response = BytesIO()
-            response.write(b"regester")
-            self.wfile.write(response.getvalue())
+            self.wfile.write(bytes(file_to_open, "utf-8"))
 
         else:
             self.send_error(404)
