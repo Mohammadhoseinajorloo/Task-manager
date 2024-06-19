@@ -33,7 +33,9 @@ class HttpHandler(BaseHTTPRequestHandler):
 
 
         elif self.path == "/Regester":
-            self.path == "/regester.html"
+            self.path = "/regester.html"
+
+            print(self.path)
             file_to_open = open(self.path[1:]).read()
             self.send_response(200)
             self.set_headers()
