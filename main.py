@@ -8,7 +8,7 @@ import bcrypt
 class HttpHandler(BaseHTTPRequestHandler):
 
     def set_headers(self):
-        self.send_header(keyword="countent-type", value="application/json")
+        self.send_header(keyword="countent-type", value="text/css")
         self.end_headers()
 
 
@@ -24,15 +24,15 @@ class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
 
         if self.path == "/":
-            self.path = "/ui/index.html"
+            self.path = "/templates/index.html"
             file_to_open = open(self.path[1:]).read()
             self.send_response(200)
             self.set_headers()
             self.wfile.write(bytes(file_to_open, "utf-8"))
 
 
-        elif self.path == "/Regester":
-            self.path = "/ui/regester.html"
+        elif self.path == "/Register":
+            self.path = "/templates/register.html"
             file_to_open = open(self.path[1:]).read()
             self.send_response(200)
             self.set_headers()
@@ -44,7 +44,7 @@ class HttpHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
 
-        if self.path == "/Regester":
+        if self.path == "/Register":
             self.send_response(200)
             self.set_headers()
 
