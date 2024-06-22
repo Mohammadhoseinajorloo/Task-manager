@@ -14,7 +14,7 @@ class DataBase:
 
 
     def __init__(self):
-        self.cnx = mysql.connector.connect(host=HOST,
+        self.cnx = mysql.connector.connect(host=LOCAL,
                                            database=NAME_DB,
                                            user=USER,
                                            password=PASSWORD)
