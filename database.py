@@ -21,7 +21,7 @@ class DataBase:
         self.cursor = self.cnx.cursor()
 
 
-    def createing_query(self, dic:dict) -> str:
+    def __createing_query(self, dic:dict) -> str:
 
         query = ""
         i = 0
@@ -35,7 +35,7 @@ class DataBase:
         return query
 
 
-    def __converting_dict_query(self, dic:dict) -> str:
+    def __inserting_query(self, dic:dict) -> str:
 
         keys = ""
         values = ""
@@ -53,7 +53,7 @@ class DataBase:
 
 
     def create(self, table:str, col:dict) -> None:
-        query = self.createing_query(col)
+        query = self.__createing_query(col)
         self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table}({query})")
         self.cnx.commit()
         return
@@ -61,7 +61,7 @@ class DataBase:
 
 
     def insert(self, table:str, values:dict):
-        columns, values = self.__converting_dict_query(values)
+        columns, values = self.__inserting_query(values)
         self.cursor.execute(f"INSERT INTO {table} ({columns}) VALUES ({values})")
         self.cnx.commit()
         return
