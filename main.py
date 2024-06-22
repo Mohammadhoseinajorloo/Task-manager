@@ -62,7 +62,7 @@ class HttpHandler(BaseHTTPRequestHandler):
                 value = item.split("=")[1]
                 post_dict[key] = value
 
-            post_dict["password"] = self.hash_pass(post_dict["password"].encode())
+            post_dict["password"] = self.hash_pass(post_dictsword"].encode())
             post_dict["password"] = post_dict["password"].decode()
 
             columns_dict = {"id": "INT  PRIMARY KEY NOT NULL AUTO_INCREMENT",

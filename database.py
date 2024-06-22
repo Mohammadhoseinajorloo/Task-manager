@@ -1,4 +1,6 @@
+from config import *
 import mysql.connector
+
 
 class DataBase:
 
@@ -12,10 +14,10 @@ class DataBase:
 
 
     def __init__(self):
-        self.cnx = mysql.connector.connect(host='localhost',
-                                           database='python_advanture_website',
-                                           user='mohammad',
-                                           password='12345678')
+        self.cnx = mysql.connector.connect(host=HOST,
+                                           database=NAME_DB,
+                                           user=USER,
+                                           password=PASSWORD)
         self.cursor = self.cnx.cursor()
 
 
