@@ -7,9 +7,10 @@ import bcrypt
 
 class HttpHandler(BaseHTTPRequestHandler):
 
-    def set_headers(self):
+    def set_headers(self) -> None:
         self.send_header(keyword="countent-type", value="text/css")
         self.end_headers()
+        return 
 
 
     def create_salt(self) -> str:
