@@ -1,4 +1,4 @@
-import sqlite3
+import mysql.connector
 
 class DataBase:
 
@@ -11,13 +11,29 @@ class DataBase:
         return cls.instance
 
 
-    def __init__(self, db_name:str):
-        self.name = db_name
-        self.conn = sqlite3.connect(self.name)
-        self.cursor = self.conn.cursor()
+    def __init__(self):
+        self.cnx = mysql.connector.connect(host='localhost',
+                                           database='python_advanture_website',
+                                           user='mohammad',
+                                           password='12345678')
+        self.cursor = self.cnx.cursor()
 
 
-    def __convert_dict_query(self, dic:dict) -> str:
+    def createing_query(self, dic:dict) -> str:
+
+        query = ""
+        i = 0
+        for k, v in dic.items():
+            if i < len(dic) - 1:
+                query += f"{k} {v},"
+                i += 1
+            else:
+                query += f"{k} {v}"
+
+        return query
+
+
+    def __converting_dict_query(self, dic:dict) -> str:
 
         keys = ""
         values = ""
@@ -35,18 +51,18 @@ class DataBase:
 
 
     def create(self, table:str, col:dict) -> None:
-        columns , _ = self.__convert_dict_query(col)
-        self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table}({columns})")
-        self.conn.commit()
+        query = self.createing_query(col)
+        self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table}({query})")
+        self.cnx.commit()
         return
 
 
 
     def insert(self, table:str, values:dict):
-        columns, values = self.__convert_dict_query(values)
+        columns, values = self.__converting_dict_query(values)
         self.cursor.execute(f"INSERT INTO {table} ({columns}) VALUES ({values})")
-        self.conn.commit()
+        self.cnx.commit()
         return
 
     def __del__(self):
-        self.conn.close()
+        self.cnx.close()

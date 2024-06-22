@@ -65,8 +65,12 @@ class HttpHandler(BaseHTTPRequestHandler):
             post_dict["password"] = self.hash_pass(post_dict["password"].encode())
             post_dict["password"] = post_dict["password"].decode()
 
-            db = DataBase(db_name="users.db")
-            db.create(table="users", col=post_dict)
+            columns_dict = {"id": "INT  PRIMARY KEY NOT NULL AUTO_INCREMENT",
+                            "name": "VARCHAR(64)",
+                            "password": "VARCHAR(64)"}
+
+            db = DataBase()
+            db.create(table="users", col=columns_dict)
             db.insert(table="users", values=post_dict)
 
             response = BytesIO()
@@ -77,5 +81,3 @@ class HttpHandler(BaseHTTPRequestHandler):
 if __name__ == "__main__":
      httpd = HTTPServer(("localhost", 8000), HttpHandler)
      httpd.serve_forever()
-
-
