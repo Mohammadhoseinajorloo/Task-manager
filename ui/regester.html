@@ -1,32 +1,32 @@
 <html lang="en">
   <head>
     <link encode="utf-8" />
-    <link rel="stylesheet" href="static/style.css" />
+    <link rel="stylesheet" href="style.css" />
     <title>register</title>
   </head>
   <body>
     <section class="window">
-      <div class="box-title">
-        <h1>Registration</h1>
-      </div>
-
-      <hr />
-
-      <div>
-        <div>
-          <input type="checkbox" name="personal" value="Personal" />
-          <label for="personal">Personal</label>
+      <form method="post">
+        <div class="box-title">
+          <h1>Registration</h1>
         </div>
+
+        <hr />
+
         <div>
-          <input type="checkbox" name="company" value="Company" />
-          <label for="company">Company</label>
+          <div>
+            <input type="checkbox" name="personal" value="Personal" />
+            <label for="personal">Personal</label>
+          </div>
+          <div>
+            <input type="checkbox" name="company" value="Company" />
+            <label for="company">Company</label>
+          </div>
         </div>
-      </div>
 
-      <hr />
+        <hr />
 
-      <div>
-        <form>
+        <div>
           <div>
             <label for="name">Name:</label>
             <input type="text" name="name" value="" />
@@ -35,30 +35,29 @@
             <label for="password">Password</label>
             <input type="password" name="password" value="" />
           </div>
-        </form>
-      </div>
-
-      <hr />
-
-      <div>
-        <div>
-          <input type="checkbox" name="male" value="male" />
-          <label for="male">Male</label>
         </div>
+
+        <hr />
+
         <div>
-          <input type="checkbox" name="female" value="female" />
-          <label for="female">Female</label>
+          <div>
+            <input type="checkbox" name="male" value="male" />
+            <label for="male">Male</label>
+          </div>
+          <div>
+            <input type="checkbox" name="female" value="female" />
+            <label for="female">Female</label>
+          </div>
         </div>
-      </div>
 
-      <hr />
+        <hr />
 
-      <p>
-        By clicking Register, your agree on our
-        <a href="#">Privacy Policy for Website</a>
-      </p>
-
-      <input type="submit" name="submit" value="Register" />
+        <p>
+          By clicking Register, your agree on our
+          <a href="#">Privacy Policy for Website</a>
+        </p>
+        <button>Register</button>
+      </form>
     </section>
   </body>
 </html>
