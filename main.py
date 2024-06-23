@@ -22,25 +22,48 @@ class HttpHandler(BaseHTTPRequestHandler):
 
 
     def do_GET(self):
+        path = self.path
 
-        if self.path == "/":
-            self.path = "/templates/index.html"
-            file_to_open = open(self.path[1:]).read()
-            self.send_response(200)
-            self.set_headers()
-            self.wfile.write(bytes(file_to_open, "utf-8"))
-
-
-        elif self.path == "/Register":
-            self.path = "/templates/register.html"
-            file_to_open = open(self.path[1:]).read()
-            self.send_response(200)
-            self.set_headers()
-            self.wfile.write(bytes(file_to_open, "utf-8"))
-
+        if path == "/templates/register.html":
+            type = "text/html"
+        elif path == "/static/css/style.css":
+            type = "text/css"
         else:
-            self.send_error(404)
+            # Wild-card/default
+            if not path == "/":
+                print("UNRECONGIZED REQUEST: ", path)
 
+            path = "/templates/register.html"
+            type = "text/html"
+
+        # Set header with content type
+        self.send_response(200)
+        self.send_header("Content-type", type)
+        self.end_headers()
+
+        # Open the file, read bytes, serve
+        with open(path[1:], 'rb') as file:
+            self.wfile.write(file.read())
+
+
+        # if self.path == "/":
+        #     self.path = "/templates/index.html"
+        #     file_to_open = open(self.path[1:]).read()
+        #     self.send_response(200)
+        #     self.set_headers()
+        #     self.wfile.write(bytes(file_to_open, "utf-8"))
+        #
+        #
+        # elif self.path == "/Register":
+        #     self.path = "/templates/register.html"
+        #     file_to_open = open(self.path[1:]).read()
+        #     self.send_response(200)
+        #     self.set_headers()
+        #     self.wfile.write(bytes(file_to_open, "utf-8"))
+        #
+        # else:
+        #     self.send_error(404)
+        #
 
     def do_POST(self):
 
