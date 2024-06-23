@@ -2,7 +2,7 @@
 
 # please enter configuration your database in variables
 
-LOCAL = ""
+HOST = ""
 USER = ""
 NAME_DB = ""
 PASSWORD = ""
