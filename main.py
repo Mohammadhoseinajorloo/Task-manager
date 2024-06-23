@@ -21,20 +21,39 @@ class HttpHandler(BaseHTTPRequestHandler):
         return bcrypt.hashpw(password, salt)
 
 
-    def do_GET(self):
-        path = self.path
-
-        if path == "/templates/register.html":
+    def rendering_page(self, path, route="/"):
+        if path == path:
             type = "text/html"
-        elif path == "/static/css/style.css":
+        elif path == "static/css/style.css":
             type = "text/css"
+        elif path == "/favicon.ico":
+            path = "/static/icon/favicon.ico"
+            type = "image/x-icon"
         else:
             # Wild-card/default
-            if not path == "/":
+            if not path == f"{route}":
                 print("UNRECONGIZED REQUEST: ", path)
 
+                path = path
+                type = "text/html"
+
+        return path, type
+
+       
+    def do_GET(self):
+        global type
+
+        path = self.path
+
+        if path == "/":
+            path = "/templates/index.html"
+            path, type = self.rendering_page(path)
+           
+
+        elif path == "/Register":
             path = "/templates/register.html"
-            type = "text/html"
+            path , type = self.rendering_page(path, route="/Register")
+        
 
         # Set header with content type
         self.send_response(200)
@@ -45,25 +64,6 @@ class HttpHandler(BaseHTTPRequestHandler):
         with open(path[1:], 'rb') as file:
             self.wfile.write(file.read())
 
-
-        # if self.path == "/":
-        #     self.path = "/templates/index.html"
-        #     file_to_open = open(self.path[1:]).read()
-        #     self.send_response(200)
-        #     self.set_headers()
-        #     self.wfile.write(bytes(file_to_open, "utf-8"))
-        #
-        #
-        # elif self.path == "/Register":
-        #     self.path = "/templates/register.html"
-        #     file_to_open = open(self.path[1:]).read()
-        #     self.send_response(200)
-        #     self.set_headers()
-        #     self.wfile.write(bytes(file_to_open, "utf-8"))
-        #
-        # else:
-        #     self.send_error(404)
-        #
 
     def do_POST(self):
 
@@ -102,6 +102,8 @@ class HttpHandler(BaseHTTPRequestHandler):
             response = BytesIO()
             response.write(b"done")
             self.wfile.write(response.getvalue())
+
+
 
 def run(server_class=HTTPServer, handler_class=HttpHandler, port=8000 ):
     server_address = ("", port)
