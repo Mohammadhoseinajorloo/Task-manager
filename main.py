@@ -4,7 +4,6 @@ from io import BytesIO
 import bcrypt
 
 
-
 class HttpHandler(BaseHTTPRequestHandler):
 
     def set_headers(self) -> None:
@@ -63,8 +62,11 @@ class HttpHandler(BaseHTTPRequestHandler):
                 value = item.split("=")[1]
                 post_dict[key] = value
 
-            post_dict["password"] = self.hash_pass(post_dict["password"].encode())
-            post_dict["password"] = post_dict["password"].decode()
+
+            encode_password = post_dict["password"].encode()
+            hashed_password = self.hash_pass(encode_password)
+            decode_password = hashed_password.decode()
+            post_dict["password"] = decode_password
 
             columns_dict = {"id": "INT  PRIMARY KEY NOT NULL AUTO_INCREMENT",
                             "name": "VARCHAR(64)",
@@ -78,7 +80,12 @@ class HttpHandler(BaseHTTPRequestHandler):
             response.write(b"done")
             self.wfile.write(response.getvalue())
 
+def run(server_class=HTTPServer, handler_class=HttpHandler, port=8000 ):
+    server_address = ("", port)
+    httpd = server_class(server_address, handler_class)
+    print(f"Starting httpd server on port {port}")
+    httpd.serve_forever()
+
 
 if __name__ == "__main__":
-     httpd = HTTPServer(("localhost", 8000), HttpHandler)
-     httpd.serve_forever()
+     run()

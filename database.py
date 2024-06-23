@@ -1,4 +1,4 @@
-from config import *
+from config import HOST, NAME_DB, USER, PASSWORD
 import mysql.connector
 
 
@@ -14,7 +14,7 @@ class DataBase:
 
 
     def __init__(self):
-        self.cnx = mysql.connector.connect(host=LOCAL,
+        self.cnx = mysql.connector.connect(host=HOST,
                                            database=NAME_DB,
                                            user=USER,
                                            password=PASSWORD)
