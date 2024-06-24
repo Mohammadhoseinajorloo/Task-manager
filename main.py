@@ -26,9 +26,6 @@ class HttpHandler(BaseHTTPRequestHandler):
             type = "text/html"
         elif path == "static/css/style.css":
             type = "text/css"
-        elif path == "/favicon.ico":
-            path = "/static/icon/favicon.ico"
-            type = "image/x-icon"
         else:
             # Wild-card/default
             if not path == f"{route}":
