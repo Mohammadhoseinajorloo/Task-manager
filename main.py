@@ -7,7 +7,7 @@ import bcrypt
 class HttpHandler(BaseHTTPRequestHandler):
 
     def set_headers(self) -> None:
-        self.send_header(keyword="countent-type", value="text/css")
+        self.send_header(keyword="Content-type", value="text/css")
         self.end_headers()
         return 
 
@@ -24,15 +24,20 @@ class HttpHandler(BaseHTTPRequestHandler):
     def rendering_page(self, path, route="/"):
         if path == path:
             type = "text/html"
-        elif path == "static/css/style.css":
+        elif path == "/static/js/script.js":
+            type = "text/javascript"
+        elif path == "/static/css/style.css":
             type = "text/css"
+        elif path == "/static/icon/favicon.ico":
+            path = "/static/icon/favicon.ico"
+            type = "image/x-icon"
         else:
             # Wild-card/default
             if not path == f"{route}":
                 print("UNRECONGIZED REQUEST: ", path)
 
-                path = path
-                type = "text/html"
+            path = path
+            type = "text/html"
 
         return path, type
 
