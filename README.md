@@ -8,7 +8,7 @@ in This project, we are trying to impliment a website step by step:
 
 
 # TODO LIST
-- [ ] write routing system 
+- [x] write routing system 
 - [ ] error handling 
 - [ ] fixed not load css file in web server 
 - [ ] redirected registering page in home paghe and display massage for successful registration.
