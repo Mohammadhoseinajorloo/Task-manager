@@ -1,68 +1,46 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta CHARSET="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--TODO:loaded css file in page and fixed 404 error in load file-->
-    <link rel="stylesheet"
-          href="../static/css/style.css"/>
-    <title>register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Register</title>
 </head>
 <body>
-<section class="window">
-    <!--TODO: redirect home page site-->
-    <form method="post">
-        <div class="box-title">
-            <h1>Registration</h1>
+
+    <section>
+        <div class="register-box">
+            <form action="" method="post">
+                <h2>Registration</h2>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" required>
+                    <label for="email">Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" required>
+                    <label for="name">Username</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" required>
+                    <label for="password">Password</label>
+                </div>
+                <div class="remmember-forget">
+                    <label for=""><input type="checkbox"> Remember me</label>
+                    <a href="#"> Forget Password </a>
+                </div>
+                <button type="submit">Register</button>
+                <div class="login-link">
+                    <p>Do have a account?<a href="#">
+                        Login</a></p>
+                </div>
+            </form>
         </div>
+    </section>
 
-        <hr/>
-
-        <div>
-            <div>
-                <input type="checkbox" name="personal" value="Personal"/>
-                <label for="personal">Personal</label>
-            </div>
-            <div>
-                <input type="checkbox" name="company" value="Company"/>
-                <label for="company">Company</label>
-            </div>
-        </div>
-
-        <hr/>
-
-        <div>
-            <div>
-                <label for="name">Name:</label>
-                <input class="box-input" type="text" name="name" value=""/>
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <input class="box-input" type="password" name="password" value=""/>
-            </div>
-        </div>
-
-        <hr/>
-
-        <div>
-            <div>
-                <input type="checkbox" name="male" value="male"/>
-                <label for="male">Male</label>
-            </div>
-            <div>
-                <input type="checkbox" name="female" value="female"/>
-                <label for="female">Female</label>
-            </div>
-        </div>
-
-        <hr/>
-
-        <p>
-            By clicking Register, your agree on our
-            <a href="#">Privacy Policy for Website</a>
-        </p>
-        <button>Register</button>
-    </form>
-</section>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
