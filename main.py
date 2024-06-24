@@ -1,7 +1,10 @@
 from database import DataBase
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from io import BytesIO
+from config import ROUTES
 import bcrypt
+import os
+
 
 
 class HttpHandler(BaseHTTPRequestHandler):
@@ -21,45 +24,37 @@ class HttpHandler(BaseHTTPRequestHandler):
         return bcrypt.hashpw(password, salt)
 
 
-    def rendering_page(self, path, route="/"):
-        if path == path:
-            type = "text/html"
-        elif path == "/static/js/script.js":
-            type = "text/javascript"
-        elif path == "/static/css/style.css":
-            type = "text/css"
-        elif path == "/static/icon/favicon.ico":
-            path = "/static/icon/favicon.ico"
-            type = "image/x-icon"
-        else:
-            # Wild-card/default
-            if not path == f"{route}":
-                print("UNRECONGIZED REQUEST: ", path)
+    def translate_path(self, path:str) -> str:
+        '''
+        Translate Path
+            This function self.path http.server input and for ROUTES list in config
+            file path exixs in list generate new path and return for open file read
+            and display in browser and web server in localhost.
+            parameters:
+                1. path :(StrPath) -> "/" or "/page"
+                    Paths that are usually taken from the object itself
+            output:
+                path: (StrPath) -> "/templates/index.html"
+                Path for render html page in web server
+        '''
+        global root
+        # look up routes and get root directory
+        for patt, rootDir in ROUTES:
+            if path.startswith(patt):
+                path = path[:len(patt)]
+                root = rootDir
 
-            path = path
-            type = "text/html"
-
-        return path, type
+        # new path        
+        return os.path.join(path, root)
 
        
     def do_GET(self):
-        global type
 
-        path = self.path
-
-        if path == "/":
-            path = "/templates/index.html"
-            path, type = self.rendering_page(path)
-           
-
-        elif path == "/Register":
-            path = "/templates/register.html"
-            path , type = self.rendering_page(path, route="/Register")
-        
-
+        path = self.translate_path(self.path)
+    
         # Set header with content type
         self.send_response(200)
-        self.send_header("Content-type", type)
+        self.send_header("Content-type", "text/html")
         self.end_headers()
 
         # Open the file, read bytes, serve
@@ -69,7 +64,7 @@ class HttpHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
 
-        if self.path == "/Register":
+        if self.path == "/register":
             self.send_response(200)
             self.set_headers()
 
@@ -107,7 +102,7 @@ class HttpHandler(BaseHTTPRequestHandler):
 
 
 
-def run(server_class=HTTPServer, handler_class=HttpHandler, port=8000 ):
+def run(server_class=HTTPServer, handler_class=HttpHandler, port=8001 ):
     server_address = ("", port)
     httpd = server_class(server_address, handler_class)
     print(f"Starting httpd server on port {port}")
@@ -115,4 +110,5 @@ def run(server_class=HTTPServer, handler_class=HttpHandler, port=8000 ):
 
 
 if __name__ == "__main__":
-     run()
+    run()
+    
