@@ -10,7 +10,7 @@ in This project, we are trying to impliment a website step by step:
 # TODO LIST
 - [x] write routing system 
 - [ ] error handling 
-- [ ] fixed not load css file in web server 
+- [x] fixed not load css file in web server
 - [ ] redirected registering page in home paghe and display massage for successful registration.
 - [x] README
 - [ ] massage system for warning and error in registeration user.
