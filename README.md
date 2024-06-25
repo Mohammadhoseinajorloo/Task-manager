@@ -16,8 +16,8 @@ in This project, we are trying to impliment a website step by step:
 - [ ] massage system for warning and error in registeration user.
 - [ ] test all function in project 
     - [x] test do get function 
-- [ ] cleaen code
-	- [ ] seprate services in project in folder extention 
+- [ ] clean code
+	- [ ] separate services in project in folder extention 
 		- [ ] hashing password 
-		- [ ] handelig headers 
-		- [ ] routing serviece
+		- [ ] handling headers 
+		- [ ] routing services
