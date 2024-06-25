@@ -14,3 +14,5 @@ in This project, we are trying to impliment a website step by step:
 - [ ] redirected registering page in home paghe and display massage for successful registration.
 - [x] README
 - [ ] massage system for warning and error in registeration user.
+- [ ] test all function in project 
+    - [x] test do get function 
