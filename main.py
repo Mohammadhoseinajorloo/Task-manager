@@ -93,7 +93,8 @@ class HttpHandler(BaseHTTPRequestHandler):
             post_dict["password"] = decode_password
 
             columns_dict = {"id": "INT  PRIMARY KEY NOT NULL AUTO_INCREMENT",
-                            "name": "VARCHAR(64)",
+                            "email" : "VARCHAR(32)",
+                            "username": "VARCHAR(64)",
                             "password": "VARCHAR(64)"}
 
             db = DataBase()
