@@ -38,6 +38,7 @@ class HttpHandler(BaseHTTPRequestHandler):
                 Path for render html page in web server
         '''
         global root
+        
         # look up routes and get root directory
         for patt, rootDir in ROUTES:
             if path.startswith(patt):
@@ -49,6 +50,7 @@ class HttpHandler(BaseHTTPRequestHandler):
 
        
     def do_GET(self):
+        global root
 
         path = self.translate_path(self.path)
     
