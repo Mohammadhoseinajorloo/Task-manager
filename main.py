@@ -28,8 +28,10 @@ class HttpHandler(BaseHTTPRequestHandler):
         '''
         Translate Path
             This function self.path http.server input and for ROUTES list in config
-            file path exixs in list generate new path and return for open file read
+            file path existes in list generate new path and return for open file read
             and display in browser and web server in localhost.
+            ** NOTE:
+                configuration ROUTES list in config file and insert routes in web serve in project.
             parameters:
                 1. path :(StrPath) -> "/" or "/page"
                     Paths that are usually taken from the object itself
