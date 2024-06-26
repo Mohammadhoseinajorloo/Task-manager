@@ -14,10 +14,12 @@ class DataBase:
 
 
     def __init__(self):
-        self.cnx = mysql.connector.connect(host=HOST,
-                                           database=NAME_DB,
-                                           user=USER,
-                                           password=PASSWORD)
+        self.cnx = mysql.connector.connect(
+            host=HOST,
+            database=NAME_DB,
+            user=USER,
+            password=PASSWORD
+        )
         self.cursor = self.cnx.cursor()
 
 
@@ -57,7 +59,6 @@ class DataBase:
         self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table}({query})")
         self.cnx.commit()
         return
-
 
 
     def insert(self, table:str, values:dict):
