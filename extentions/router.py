@@ -1,5 +1,5 @@
-from config import ROUTES
 import os
+from config import ROUTES
 
 
 class Router:
