@@ -5,7 +5,8 @@ send data frontend in do_POST function and output a dictionery
 from information in data e.x email, username, password
 '''
 
-def processing_front_data(post_data_bytes:bytes) -> dict:
+
+def processing_front_data(post_data_bytes: bytes) -> dict:
     """
     This function in input a bytes str data and convert str data
     seperate with '&' input data and in a loop on each us from items
