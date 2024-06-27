@@ -11,6 +11,7 @@ in This project, we are trying to impliment a website step by step:
 
 - [x] write routing system
 - [ ] error handling
+    - [x] datastracture and route serviece 
 - [x] fixed not load css file in web server
 - [ ] redirected registering page in login page and display massage for successful registration.
 - [x] README
@@ -22,7 +23,7 @@ in This project, we are trying to impliment a website step by step:
     - [ ] separate services in project in folder extention
         - [x] hashing password
         - [ ] handling headers (don't) -> **recommend please**
-        - [x] routing services
+        - [x] routing services **advanture** == flask like ==
         - [x] database services
     - [x] utils in extentions
 - [x] update database
