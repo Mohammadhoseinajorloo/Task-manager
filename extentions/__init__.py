@@ -1,11 +1,14 @@
-import sys
-import os
+"""
+This file we trying setting madule for used in project.
+"""
 
-current_directory = os.path.dirname(os.path.realpath(__file__))
-parent_directory = os.path.dirname(current_directory)
-sys.path.append(parent_directory)
-
-
+# this setting for madule
 from .router import Router
 from .database import DataBase
 from .hashingpassword import Hashing
+from .datastructure import Method
+
+__version__= "0.0.1"
+
+
+
