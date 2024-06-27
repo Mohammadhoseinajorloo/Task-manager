@@ -24,7 +24,7 @@ in This project, we are trying to impliment a website step by step:
         - [ ] handling headers (don't) -> **recommend please**
         - [x] routing services
         - [x] database services
-    - [x] helperfunction
+    - [x] utils in extentions
 - [x] update database
 - [ ] create home page website
 - [x] create login page website
