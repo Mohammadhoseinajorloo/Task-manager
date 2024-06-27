@@ -1,6 +1,5 @@
-import __init__
 import unittest
-from helperfunction import processing_front_data
+from extentions.utils import processing_front_data
 
 
 class TestHelperFunction(unittest.TestCase):

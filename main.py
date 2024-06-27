@@ -4,25 +4,27 @@ from extentions import (
     DataBase,
     Hashing,
 )
-# helper_function in project
-from helperfunction import processing_front_data
-
 # library built in python
-from http.server import HTTPServer, BaseHTTPRequestHandler
-from io import BytesIO
+from http.server import (
+    HTTPServer,
+    BaseHTTPRequestHandler,
+    SimpleHTTPRequestHandler,
+)
+# helper_function in project
+from extentions.utils import processing_front_data
 
 
 class HttpHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-        # Router service
-        router = Router()
-        path = router.translate_path(self.path)
-
         # Set header with content type
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
+
+        # Router service
+        router = Router()
+        path = router.translate_path(self.path)
 
         # Open the file, read bytes, serve
         with open(path[1:], 'rb') as file:
