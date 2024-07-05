@@ -1,4 +1,4 @@
-from test.ustils.task import create_random_task
+from backend.tests.utils.task import create_random_task
 
 
 def test_should_fetch_task_create(client, db_session):

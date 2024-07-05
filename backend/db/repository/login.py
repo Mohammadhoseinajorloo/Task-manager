@@ -1,4 +1,4 @@
-from ..models.user import User
+from backend.db.models.user import User
 from sqlalchemy.orm import Session
 
 

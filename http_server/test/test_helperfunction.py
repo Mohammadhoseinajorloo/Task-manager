@@ -1,5 +1,5 @@
 import unittest
-from extentions.utils import processing_front_data
+from fastapi.extentions.utils import processing_front_data
 
 
 class TestHelperFunction(unittest.TestCase):

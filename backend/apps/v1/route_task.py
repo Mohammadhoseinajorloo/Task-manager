@@ -1,12 +1,12 @@
 from typing import Optional
 
-from apis.v1.route_login import get_current_user
-from db.repository.task import create_new_task, delet_task, list_task, retreive_task
-from db.session import get_db
+from backend.apis.v1.route_login import get_current_user
+from backend.db.repository.tasks import create_new_task, delete_task, list_tasks, retrieve_task
+from backend.db.session import get_db
 from fastapi import APIRouter, Depends, Form, status, Request, responses
 from fastapi.security.utils import get_authorization_scheme_param
 from fastapi.templating import Jinja2Templates
-from schemas.task import CreateTask
+from backend.schemas.tasks import CreateTask
 from sqlalchemy.orm import Session
 
 templates = Jinja2Templates(directory='templates')
@@ -15,7 +15,7 @@ router = APIRouter()
 
 @router.get("/")
 async def home(request: Request, alert: Optional[str] = None, db: Session = Depends(get_db)):
-    task = list_task(db=db)
+    task = list_tasks(db=db)
     return templates.TemplateResponse(
         "/task/detail.html", {"request": request, "task": task, "alert": alert}
     )
@@ -23,7 +23,7 @@ async def home(request: Request, alert: Optional[str] = None, db: Session = Depe
 
 @router.get("/app/task/{id}")
 async def task_detail(request: Request, id: int, db: Session = Depends(get_db)):
-    task = retreive_task(id=id, db=db)
+    task = retrieve_task(id=id, db=db)
     return templates.TemplateResponse(
         "/task/detail.html", {"request": request, "task": task}
     )
@@ -65,14 +65,14 @@ async def delete_a_task(request: Request, id: int, db: Session = Depends(get_db)
     _, token = get_authorization_scheme_param(token)
     try:
         owner = get_current_user(token=token, db=db)
-        msg = delet_task(id=id, owner_id=owner, db=db)
+        msg = delete_task(id=id, owner_id=owner, db=db)
         alert = msg.get("error") or msg.get("alert")
         return responses.RedirectResponse(
             f"?alert={alert}", status_code=status.HTTP_302_FOUND
         )
     except Exception as e:
         print(f"Exeption raised while deleting a task: {e}")
-        task = retreive_task(id=id, db=db)
+        task = retrieve_task(id=id, db=db)
         return templates.TemplateResponse(
             "task/detail.html",
             {"request": request, "alert": "Please login Again", "task": task}

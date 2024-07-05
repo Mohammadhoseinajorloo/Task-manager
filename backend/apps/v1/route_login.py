@@ -1,13 +1,13 @@
 import json
 
-from apis.v1.route_login import authenticate_user
-from core.security import create_access_token
-from db.repository.user import create_new_user
-from db.session import get_db
+from backend.apis.v1.route_login import authenticate_user
+from backend.core.security import create_access_token
+from backend.db.repository.user import create_new_user
+from backend.db.session import get_db
 from fastapi import APIRouter, Depends, Form, Request, responses, status
 from fastapi.templating import Jinja2Templates
 from pydantic.error_wrappers import ValidationError
-from schemas.user import UserCreate
+from backend.schemas.user import UserCreate
 from sqlalchemy.orm import Session
 
 templates = Jinja2Templates(directory="templates")

@@ -1,5 +1,5 @@
-from ..models.task import Task
-from schemas.task import CreateTask, UpdateTask
+from backend.db.models.task import Task
+from backend.schemas.tasks import CreateTask, UpdateTask
 from sqlalchemy.orm import Session
 
 

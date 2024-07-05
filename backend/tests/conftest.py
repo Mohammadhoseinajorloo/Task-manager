@@ -9,11 +9,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# this is to include fastapi dir in sys.path so that we can import from db, main.py
+# this is to include backend dir in sys.path so that we can import from db, main.py
 
-from ..db.base import Base
-from ..db.session import get_db
-from ..apis.base import api_router
+from backend.db.base import Base
+from backend.db.session import get_db
+from backend.apis.base import api_router
 
 
 def start_application() -> FastAPI:
