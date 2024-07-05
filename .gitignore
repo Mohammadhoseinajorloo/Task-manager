@@ -4,3 +4,4 @@ __pycache__/
 .idea/
 config.py
 .vscode
+backend/.env
