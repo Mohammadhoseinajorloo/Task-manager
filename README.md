@@ -10,6 +10,13 @@ in This project, we are trying to impliment a website step by step:
     ## tools:
     1. fastapi framework 
 
+
+3. impliment tasckmanager project:
+   ## tools:
+   - my sql 
+   - redis
+   - fastapi
+
 # TODO LIST
 
 - [x] write routing system
@@ -20,11 +27,11 @@ in This project, we are trying to impliment a website step by step:
 fastapi
 - [x] README
 - [ ] massage system for warning and error in registration user.
-- [ ] test all function in project
+- [x] test all function in project
     - [x] test do get function
     - [x] test processing front data function
-- [ ] clean code
-    - [ ] separate services in project in folder extention
+- [x] clean code
+    - [x] separate services in project in folder extention
         - [x] hashing password
         - [x] handling headers (don't) -> **recommend please** -> handel in fastapi
         - [x] routing services **advanture** ==flask like==
