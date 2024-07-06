@@ -33,3 +33,4 @@ fastapi
 - [x] update database
 - [x] create home page website
 - [x] create login page website
+- [ ] add redis for caching
