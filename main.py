@@ -20,7 +20,7 @@ def configure_staticfiles(app):
     app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
 
 
-def start_appliction(app):
+def start_appliction():
     app = FastAPI()
     create_table()
     include_router(app)
@@ -28,5 +28,4 @@ def start_appliction(app):
     return app
 
 
-if __name__ == "__main__":
-    app = start_appliction()
+app = start_appliction()
