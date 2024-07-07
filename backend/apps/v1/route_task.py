@@ -17,7 +17,7 @@ router = APIRouter()
 async def home(request: Request, alert: Optional[str] = None, db: Session = Depends(get_db)):
     task = list_tasks(db=db)
     return templates.TemplateResponse(
-        "/task/detail.html", {"request": request, "task": task, "alert": alert}
+        "/task/home.html", {"request": request, "task": task, "alert": alert}
     )
 
 
