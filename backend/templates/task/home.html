@@ -1,10 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+
+{% block title %}
+<title>Algoholic</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <!-- <h2 class="text-muted">All Blogs</h1> -->
+    <div class="row justify-content-center my-5">
+
+        {% for blog in blogs %}
+        <div class="col-sm-4 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-header">
+                    <h5 class="card-text">{{ blog.title }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">First Published : {{blog.created_at.strftime('%Y-%m-%d')}}</p>
+                    <small class="card-text text-muted">Content : {{blog.content[:60]}}...</small>
+                    <br>
+                    <a href="/app/blog/{{blog.id}}" class="btn btn-primary my-2">Read more</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
