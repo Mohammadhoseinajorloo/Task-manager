@@ -38,6 +38,29 @@ async def register(
             )
 
 
+@router.post("/register")
+def register(
+        request: Request,
+        email: str = Form(...),
+        password: str = Form(...),
+        db: Session = Depends(get_db),
+):
+    errors = []
+    try:
+        user = UserCreate(email=email, password=password)
+        create_new_user(user=user, db=db)
+        return responses.RedirectResponse(
+            "/?alert=Successfully%20Registered", status_code=status.HTTP_302_FOUND
+        )
+    except ValidationError as e:
+        errors_list = json.loads(e.json())
+        for item in errors_list:
+            errors.append(item.get("loc")[0] + ": " + item.get("msg"))
+        return templates.TemplateResponse(
+            "auth/register.html", {"request": request, "errors": errors}
+        )
+
+
 @router.get("/login")
 async def login(request: Request):
     return templates.TemplateResponse("auth/login.html", {"request": request})
