@@ -7,10 +7,10 @@ from sqlalchemy.orm import relationship
 
 class Task(Base):
     task_id = Column(Integer, primary_key=True)
-    title = Column(String(255), nullable=False)
-    description = Column(Text, nullable=False)
-    owner_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
-    owner = relationship("User", back_populates="tasks_id")
-    created_at = Column(DateTime, default=datetime.now())
+    title = Column(String , nullable=False)
+    description = Column(Text, nullable=True)
+    owner_id = Column(Integer, ForeignKey("user.user_id"))
+    owner = relationship("User", back_populates="tasks")
+    create_at = Column(DateTime, default=datetime.now)
     is_done = Column(Boolean, default=False)
-    is_active = Column(Boolean, default=True)
+    is_active = Column(Boolean, default=False)

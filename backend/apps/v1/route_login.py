@@ -15,6 +15,11 @@ router = APIRouter()
 
 
 @router.get("/register")
+async def register(request: Request):
+    return templates.TemplateResponse("auth/register.html", {"request": request})
+
+
+@router.post("/register")
 async def register(
         request: Request,
         email: str = Form(...),
@@ -22,32 +27,9 @@ async def register(
         password: str = Form(...),
         db: Session = Depends(get_db),
 ):
-    error = []
-    try:
-        user = UserCreate(email=email, username=username, password=password, db=db)
-        create_new_user(user=user, db=db)
-        return responses.RedirectResponse(
-            "?alert=sucssesfuly%20registered", status_code=status.HTTP_302_FOUND
-        )
-    except ValidationError as e:
-        error_list = json.loads(e.json())
-        for item in error_list:
-            error.append(item.get("loc")[0] + ":" + item.get("msg"))
-            return templates.TemplateResponse(
-                "auth/register.html", {"request": request, "error": error}
-            )
-
-
-@router.post("/register")
-def register(
-        request: Request,
-        email: str = Form(...),
-        password: str = Form(...),
-        db: Session = Depends(get_db),
-):
     errors = []
     try:
-        user = UserCreate(email=email, password=password)
+        user = UserCreate(email=email, username=username, password=password)
         create_new_user(user=user, db=db)
         return responses.RedirectResponse(
             "/?alert=Successfully%20Registered", status_code=status.HTTP_302_FOUND
@@ -74,7 +56,7 @@ async def login(
         db: Session = Depends(get_db),
 ):
     errors = []
-    user = authenticate_user(email=email, password=password)
+    user = authenticate_user(email=email, password=password, db=db)
     if not user:
         errors.append("Invalid email or password")
         return templates.TemplateResponse(
