@@ -1,8 +1,8 @@
-from backend.apis.base import api_router
-from backend.apps.base import app_router
-from backend.core.config import settings
-from backend.db.base import Base
-from backend.db.session import engine
+from apis.base import api_router
+from apps.base import app_router
+from core.config import settings
+from db.base import Base
+from db.session import engine
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 

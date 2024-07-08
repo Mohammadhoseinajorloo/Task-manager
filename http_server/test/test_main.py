@@ -1,7 +1,6 @@
-import __init__
 import unittest
 from unittest.mock import patch, Mock, MagicMock
-from main import HttpHandler
+from backend.main import HttpHandler
 import io
 
 

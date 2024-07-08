@@ -6,10 +6,10 @@ from sqlalchemy.orm import relationship
 
 
 class Task(Base):
-    id = Column(Integer, primary_key=True)
+    task_id = Column(Integer, primary_key=True)
     title = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
-    owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    owner_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
     owner = relationship("User", back_populates="tasks_id")
     created_at = Column(DateTime, default=datetime.now())
     is_done = Column(Boolean, default=False)

@@ -1,7 +1,7 @@
 from typing import List
 
-from backend.db.repository.tasks import create_new_task, delete_task, list_tasks, retrieve_task, update_task
-from backend.db.session import get_db
+from db.repository.tasks import create_new_task, delete_task, list_tasks, retrieve_task, update_task
+from db.session import get_db
 from fastapi import APIRouter, Depends, status, HTTPException
 from backend.schemas.tasks import CreateTask, ShowTask, UpdateTask
 from sqlalchemy.orm import Session
