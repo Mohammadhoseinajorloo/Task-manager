@@ -26,7 +26,7 @@ in This project, we are trying to impliment a website step by step:
 - [x] redirected registering page in login page and display massage for successful registration. -> automatically in 
 fastapi
 - [x] README
-- [ ] massage system for warning and error in registration user.
+- [x] massage system for warning and error in registration user.
 - [x] test all function in project
     - [x] test do get function
     - [x] test processing front data function
