@@ -17,7 +17,7 @@ async def create_task(
         db: Session = Depends(get_db),
         current_user: User = Depends(get_current_user)
 ):
-    task = create_new_task(task=task, db=db, owner_id=current_user.id)
+    task = create_new_task(task=task, db=db, owner_id=current_user.user_id)
     return task
 
 

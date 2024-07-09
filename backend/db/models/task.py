@@ -13,4 +13,4 @@ class Task(Base):
     owner = relationship("User", back_populates="tasks")
     create_at = Column(DateTime, default=datetime.now)
     is_done = Column(Boolean, default=False)
-    is_active = Column(Boolean, default=False)
+    is_active = Column(Boolean, default=True)

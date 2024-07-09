@@ -1,3 +1,4 @@
+from core.config import settings
 from apis.base import api_router
 from apps.base import app_router
 from core.config import settings
@@ -21,7 +22,7 @@ def configure_staticfiles(app):
 
 
 def start_appliction():
-    app = FastAPI()
+    app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
     create_table()
     include_router(app)
     configure_staticfiles(app)

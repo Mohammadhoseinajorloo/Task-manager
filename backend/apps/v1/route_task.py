@@ -21,17 +21,17 @@ async def home(
 ):
     tasks = list_tasks(db=db)
     return templates.TemplateResponse(
-        "/task/home.html", {"request": request, "task": tasks, "alert": alert}
+        "task/home.html", {"request": request, "tasks": tasks, "alert": alert}
     )
 
 
-@router.get("/app/task/{id}")
+@router.get("/app/task/{task_id}")
 async def task_detail(
         request: Request,
         task_id: int,
         db: Session = Depends(get_db)
 ):
-    task = retrieve_task(task_id=task_id, db=db)
+    task = retrieve_task(db=db, task_id=task_id)
     return templates.TemplateResponse(
         "task/detail.html", {"request": request, "task": task}
     )
@@ -64,26 +64,29 @@ async def create_task(
         error = ["Please login to create a new task"]
         print("Exeption raised:", e)
         return templates.TemplateResponse(
-            "/task/create_new_task.html",
+            "task/create_new_task.html",
             {"request": request, "error": error, "title": title, "description": description}
         )
 
 
-@router.get("/delete/{id}")
-async def delete_a_task(request: Request, task_id: int, db: Session = Depends(get_db)):
+@router.get("/delete/{task_id}")
+async def delete_a_task(
+        request: Request,
+        task_id: int,
+        db: Session = Depends(get_db)
+):
     token = request.cookies.get("access_token")
     _, token = get_authorization_scheme_param(token)
     try:
         owner = get_current_user(token=token, db=db)
-        msg = delete_task(task_id=task_id, owner_id=owner, db=db)
-        alert = msg.get("error") or msg.get("alert")
+        msg = delete_task(db=db, owner_id=owner.user_id, task_id=task_id)
+        alert = msg.get("error") or msg.get("message") or None
         return responses.RedirectResponse(
-            f"?alert={alert}", status_code=status.HTTP_302_FOUND
+            f"/?alert={alert}", status_code=status.HTTP_302_FOUND
         )
     except Exception as e:
         print(f"Exeption raised while deleting a task: {e}")
-        task = retrieve_task(task_id=task_id, db=db)
+        task = retrieve_task(db=db, task_id=task_id)
         return templates.TemplateResponse(
-            "task/detail.html",
-            {"request": request, "alert": "Please login Again", "task": task}
+            "task/detail.html", {"request": request, "alert": "Please login Again", "task": task}
         )

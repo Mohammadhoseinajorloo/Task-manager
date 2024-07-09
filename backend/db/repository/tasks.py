@@ -11,12 +11,8 @@ def create_new_task(task: CreateTask, db: Session, owner_id: int = 1) -> Task:
     return task
 
 
-def retrieve_task(task_id: int, db: Session) -> object:
-    """
-
-    @rtype: object
-    """
-    task = db.query(Task).filter(task_id == Task.task_id).first()
+def retrieve_task(task_id: int, db: Session):
+    task = db.query(Task).filter(Task.task_id == task_id).first()
     return task
 
 
@@ -37,9 +33,11 @@ def update_task(task_id: int, task: UpdateTask, owner_id: int, db: Session):
 
 
 def delete_task(task_id: int, owner_id: int, db: Session):
-    task_in_db = db.query(Task).filter(Task.id == task_id)
+    task_in_db = db.query(Task).filter(Task.task_id == task_id)
     if not task_in_db.first():
         return {"error": f"cannot find task with id: {task_id}"}
+    if not task_in_db.first().owner_id == owner_id:
+        return {"error": "only owner can delete task"}
     task_in_db.delete()
     db.commit()
     return {"massage": f"deleted task with id: {task_id}"}

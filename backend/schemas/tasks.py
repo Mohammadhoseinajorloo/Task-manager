@@ -16,7 +16,7 @@ class UpdateTask(BaseModel):
 class ShowTask(BaseModel):
     title: str
     description: Optional[str]
-    created_at: date
+    create_at: date
 
     class Config:
-        orm_mode = True
+        from_attributes: bool = True
