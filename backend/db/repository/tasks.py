@@ -12,11 +12,13 @@ def create_new_task(task: CreateTask, db: Session, owner_id: int = 1) -> Task:
 
 
 def retrieve_task(task_id: int, db: Session):
+    # TODO: add redis(check or search in redis -> get function for exprorting value)
     task = db.query(Task).filter(Task.task_id == task_id).first()
     return task
 
 
 def list_tasks(db: Session):
+    # TODO: add redis ( set and update redis databases)
     tasks = db.query(Task).filter(Task.is_active == True).all()
     return tasks
 

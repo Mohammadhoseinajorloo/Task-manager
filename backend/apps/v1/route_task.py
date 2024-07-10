@@ -12,7 +12,6 @@ from sqlalchemy.orm import Session
 templates = Jinja2Templates(directory='templates')
 router = APIRouter()
 
-
 @router.get("/")
 async def home(
         request: Request,
