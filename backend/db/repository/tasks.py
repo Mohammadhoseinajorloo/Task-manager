@@ -1,5 +1,10 @@
+import json
+from datetime import datetime
+
 from backend.db.models.task import Task
 from backend.schemas.tasks import CreateTask, UpdateTask
+from backend.cache.logic.cache import cache_get, cache_set
+from backend.cache.connection import cache
 from sqlalchemy.orm import Session
 
 
@@ -12,9 +17,32 @@ def create_new_task(task: CreateTask, db: Session, owner_id: int = 1) -> Task:
 
 
 def retrieve_task(task_id: int, db: Session):
-    # TODO: add redis(check or search in redis -> get function for exprorting value)
+    cache_key = f"task:{task_id}"
+
+    cached_task = cache.get(cache_key)
+    if cached_task:
+        task = json.loads(cached_task)
+        task["create_at"] = datetime.fromisoformat(task["create_at"])
+        return task
+
     task = db.query(Task).filter(Task.task_id == task_id).first()
-    return task
+
+    if not task:
+        return {"error": "Task not found"}
+
+    task_data = json.dumps({"title": task.title,
+                            "description": task.description,
+                            "owner_id": task.owner_id,
+                            "create_at": task.create_at.isoformat(),
+                            })
+
+    cache_set(cache_key, task_data)
+
+    return {"title": task.title,
+            "description": task.description,
+            "owner_id": task.owner_id,
+            "create_at": task.create_at,
+    }
 
 
 def list_tasks(db: Session):
