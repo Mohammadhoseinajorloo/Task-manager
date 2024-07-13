@@ -50,7 +50,7 @@ async def update_a_task(
         db: Session = Depends(get_db),
         current_user: User = Depends(get_current_user)
 ):
-    task = update_task(id=task_id, task=task, owner_id=current_user.id, db=db)
+    task = update_task(task_id=task_id, task=task, owner_id=current_user.id, db=db)
     if isinstance(task, dict):
         raise HTTPException(
             detail=task.get("error"),
@@ -65,7 +65,7 @@ async def delete_a_task(
         db: Session = Depends(get_db),
         current_user: User = Depends(get_current_user)
 ):
-    massage = delete_task(id=task_id, owner_id=current_user.id, db=db)
+    massage = delete_task(task_id=task_id, owner_id=current_user.id, db=db)
     if massage.get("error"):
         raise HTTPException(
             detail=massage.get("error"),

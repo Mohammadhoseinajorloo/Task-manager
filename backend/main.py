@@ -1,4 +1,3 @@
-from core.config import settings
 from apis.base import api_router
 from apps.base import app_router
 from core.config import settings
