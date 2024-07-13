@@ -11,4 +11,4 @@ import sys
 sys.path.append("../")
 #######################################################################################################
 
-from .connection import redis
+from .connection import cache
