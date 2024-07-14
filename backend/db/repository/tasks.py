@@ -3,7 +3,7 @@ from datetime import datetime
 
 from backend.db.models.task import Task
 from backend.schemas.tasks import CreateTask, UpdateTask
-from backend.cache.logic.cache import cache_get, cache_set
+from backend.cache.logic.cache import cache_get, cache_set, cache_delete
 from backend.cache.connection import cache
 from sqlalchemy.orm import Session
 
@@ -13,6 +13,10 @@ def create_new_task(task: CreateTask, db: Session, owner_id: int = 1) -> Task:
     db.add(task)
     db.commit()
     db.refresh(task)
+
+    cache_key_list = f"tasks:list"
+    cache_delete(cache_key_list)
+
     return task
 
 
@@ -30,19 +34,23 @@ def retrieve_task(task_id: int, db: Session):
     if not task:
         return {"error": "Task not found"}
 
-    task_data = json.dumps({"title": task.title,
-                            "description": task.description,
-                            "owner_id": task.owner_id,
-                            "create_at": task.create_at.isoformat(),
-                            })
+    task_data = json.dumps({
+        "task_id": task.task_id,
+        "title": task.title,
+        "description": task.description,
+        "owner_id": task.owner_id,
+        "create_at": task.create_at.isoformat(),
+    })
 
     cache_set(cache_key, task_data)
 
-    return {"title": task.title,
-            "description": task.description,
-            "owner_id": task.owner_id,
-            "create_at": task.create_at,
-            }
+    return {
+        "task_id": task.task_id,
+        "title": task.title,
+        "description": task.description,
+        "owner_id": task.owner_id,
+        "create_at": task.create_at,
+    }
 
 
 def list_tasks(db: Session):
@@ -98,4 +106,11 @@ def delete_task(task_id: int, owner_id: int, db: Session):
         return {"error": "only owner can delete task"}
     task_in_db.delete()
     db.commit()
+
+    cache_key_task = f"task:{task_id}"
+    cache_delete(cache_key_task)
+
+    cache_key_list = f"tasks:list"
+    cache_delete(cache_key_list)
+
     return {"massage": f"deleted task with id: {task_id}"}

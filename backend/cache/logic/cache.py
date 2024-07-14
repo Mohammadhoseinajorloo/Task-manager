@@ -19,3 +19,12 @@ def cache_get(key: str) -> str:
     @return: cached value
     """
     return cache.get(key)
+
+
+def cache_delete(key: str):
+    """
+    Delete a cached value
+    @param key: key to cache
+    @return: True if the value was cached, False otherwise
+    """
+    cache.delete(key)
