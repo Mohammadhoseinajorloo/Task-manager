@@ -42,13 +42,41 @@ def retrieve_task(task_id: int, db: Session):
             "description": task.description,
             "owner_id": task.owner_id,
             "create_at": task.create_at,
-    }
+            }
 
 
 def list_tasks(db: Session):
-    # TODO: add redis ( set and update redis databases)
+    cache_key = f"tasks:list"
+    cached_tasks = cache_get(cache_key)
+    if cached_tasks:
+        tasks = json.loads(cached_tasks)
+        for task in tasks:
+            task["create_at"] = datetime.fromisoformat(task["create_at"])
+        return tasks
+
     tasks = db.query(Task).filter(Task.is_active == True).all()
-    return tasks
+
+    tasks_data = json.dumps([{
+        "task_id": task.task_id,
+        "title": task.title,
+        "description": task.description,
+        "owner_id": task.owner_id,
+        "create_at": task.create_at.isoformat(),
+        "is_active": task.is_active,
+    } for task in tasks
+    ])
+
+    cache_set(cache_key, tasks_data)
+
+    return [{
+        "task_id": task.task_id,
+        "title": task.title,
+        "description": task.description,
+        "owner_id": task.owner_id,
+        "create_at": task.create_at,
+        "is_active": task.is_active,
+    } for task in tasks
+    ]
 
 
 def update_task(task_id: int, task: UpdateTask, owner_id: int, db: Session):
