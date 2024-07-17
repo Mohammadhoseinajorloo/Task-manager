@@ -13,7 +13,6 @@ def create_new_user(user: UserCreate, db: Session):
         email=user.email,
         username=user.username,
         password=Hasher.get_password_hash(user.password),
-        profile=user.profile,
         is_active=True,
         is_superuser=False
     )

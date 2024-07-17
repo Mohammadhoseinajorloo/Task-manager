@@ -53,7 +53,7 @@ def retrieve_task(task_id: int, db: Session):
     }
 
 
-def list_tasks(db: Session):
+def list_tasks(user_id: int, db: Session):
     cache_key = f"tasks:list"
     cached_tasks = cache_get(cache_key)
     if cached_tasks:
@@ -62,7 +62,7 @@ def list_tasks(db: Session):
             task["create_at"] = datetime.fromisoformat(task["create_at"])
         return tasks
 
-    tasks = db.query(Task).filter(Task.is_active == True).all()
+    tasks = db.query(Task).filter(Task.owner_id == user_id).all()
 
     tasks_data = json.dumps([{
         "task_id": task.task_id,

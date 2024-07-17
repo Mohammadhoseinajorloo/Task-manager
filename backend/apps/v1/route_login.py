@@ -1,5 +1,6 @@
 import json
 
+from backend.cache.connection import cache
 from backend.apis.v1.route_login import authenticate_user, get_current_user
 from backend.core.security import create_access_token
 from backend.core.upload_profile import save_profile
@@ -58,6 +59,7 @@ async def login(
         password: str = Form(...),
         db: Session = Depends(get_db),
 ):
+    cache.flushall()
     errors = []
     user = authenticate_user(email=email, password=password, db=db)
     if not user:

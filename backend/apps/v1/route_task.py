@@ -27,7 +27,7 @@ async def home(
     _, token = get_authorization_scheme_param(token)
     owner = get_current_user(token, db)
     profile = read_profile(owner)
-    tasks = list_tasks(db=db)
+    tasks = list_tasks(user_id=owner.user_id, db=db)
     return templates.TemplateResponse(
         "task/home.html", {
             "request": request,
