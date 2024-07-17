@@ -1,13 +1,13 @@
 import json
-import os
 
-from fastapi.security import OAuth2PasswordBearer
-
-from backend.apis.v1.route_login import authenticate_user
+from backend.apis.v1.route_login import authenticate_user, get_current_user
 from backend.core.security import create_access_token
+from backend.core.upload_profile import save_profile
+from backend.db.models.user import User
 from backend.db.repository.user import create_new_user
 from backend.db.session import get_db
-from fastapi import APIRouter, Depends, Form, Request, responses, status
+from fastapi import APIRouter, Depends, Form, Request, responses, status, UploadFile, File
+from fastapi.security.utils import get_authorization_scheme_param
 from fastapi.templating import Jinja2Templates
 from pydantic.error_wrappers import ValidationError
 from backend.schemas.user import UserCreate
@@ -15,13 +15,6 @@ from sqlalchemy.orm import Session
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter()
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
-
-
-@router.get("/upload-profile-image")
-async def upload_profile_image(request: Request):
-    return templates.TemplateResponse("auth/upload_image.html", {"request": request})
 
 
 @router.get("/register")
@@ -80,3 +73,33 @@ async def login(
         key="access_token", value=f"Bearer {access_token}", httponly=True
     )
     return response
+
+
+@router.get("/upload-profile-image")
+async def upload_profile_image(
+        request: Request,
+        db: Session = Depends(get_db),
+):
+    token = request.cookies.get("access_token")
+    _, token = get_authorization_scheme_param(token)
+    owner = get_current_user(token=token, db=db)
+    return templates.TemplateResponse(
+        "auth/upload_image.html",
+        {"request": request, "owner": owner},
+    )
+
+
+@router.post("/upload-profile-image/")
+async def upload_profile_image(
+        request: Request,
+        file: UploadFile = File(...),
+        db: Session = Depends(get_db),
+):
+    token = request.cookies.get("access_token")
+    _, token = get_authorization_scheme_param(token)
+    owner = get_current_user(token=token, db=db)
+    save_name = save_profile(owner.user_id, file)
+    return templates.TemplateResponse(
+        "task/home.html",
+        {"request": request, "save_name": save_name},
+    )

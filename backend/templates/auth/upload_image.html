@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>Upload Profile Image</h1>
+    <h2>{{ owner.username }}</h2>
     <form action="/upload-profile-image/" method="post" enctype="multipart/form-data">
         <input type="file" name="file" accept="image/*">
         <button type="submit">Upload</button>
