@@ -1,4 +1,7 @@
 import json
+import os
+
+from fastapi.security import OAuth2PasswordBearer
 
 from backend.apis.v1.route_login import authenticate_user
 from backend.core.security import create_access_token
@@ -12,6 +15,13 @@ from sqlalchemy.orm import Session
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
+
+
+@router.get("/upload-profile-image")
+async def upload_profile_image(request: Request):
+    return templates.TemplateResponse("auth/upload_image.html", {"request": request})
 
 
 @router.get("/register")

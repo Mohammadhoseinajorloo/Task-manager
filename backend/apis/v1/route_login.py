@@ -1,8 +1,12 @@
+import os
+
 from backend.core.hashing import Hasher
 from backend.core.security import create_access_token
 from backend.db.repository.login import get_user
 from backend.db.session import get_db
-from fastapi import APIRouter, Depends, HTTPException, status
+from backend.db.models.user import User
+from backend.core.upload_profile import save_profile
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Request, responses
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from backend.schemas.token import Token
 from sqlalchemy.orm import Session
@@ -60,3 +64,17 @@ def get_current_user(
     if not user:
         raise credentials_exception
     return user
+
+
+@router.post("/upload-profile-image")
+async def upload_profile_image(
+        request: Request,
+        file: UploadFile = File(...),
+        db: Session = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+):
+    save_profile(current_user.user_id, file)
+    return responses.RedirectResponse(
+        f"/?alert=image upload success",
+        status_code=status.HTTP_200_OK,
+    )
