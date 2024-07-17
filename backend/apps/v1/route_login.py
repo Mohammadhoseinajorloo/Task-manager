@@ -3,7 +3,7 @@ import json
 from backend.apis.v1.route_login import authenticate_user, get_current_user
 from backend.core.security import create_access_token
 from backend.core.upload_profile import save_profile
-from backend.db.models.user import User
+from backend.db.repository.profile import add_profile
 from backend.db.repository.user import create_new_user
 from backend.db.session import get_db
 from fastapi import APIRouter, Depends, Form, Request, responses, status, UploadFile, File
@@ -99,7 +99,7 @@ async def upload_profile_image(
     _, token = get_authorization_scheme_param(token)
     owner = get_current_user(token=token, db=db)
     save_name = save_profile(owner.user_id, file)
-    return templates.TemplateResponse(
-        "task/home.html",
-        {"request": request, "save_name": save_name},
+    add_profile(save_name, current_user=owner, db=db)
+    return responses.RedirectResponse(
+        "/", status_code=status.HTTP_302_FOUND
     )

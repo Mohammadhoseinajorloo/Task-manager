@@ -8,6 +8,16 @@
 
 {% block content %}
 <div class="container">
+
+    <div style="display: flex;">
+        {% if profile %}
+            <img style="border-radius: 50%;" src="{{profile}}" width="50" height="50">
+        {% else %}
+            <p> No profile image uploaded. </p>
+        {% endif %}
+        <p style="margin-left: 10px">{{owner.username}}</p>
+    </div>
+
     <!-- <h2 class="text-muted">All Blogs</h1> -->
     <div class="row justify-content-center my-5">
 

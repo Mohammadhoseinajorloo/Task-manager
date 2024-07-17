@@ -1,6 +1,7 @@
 from typing import Optional
 
 from backend.apis.v1.route_login import get_current_user
+from backend.db.repository.profile import read_profile
 from backend.db.repository.tasks import create_new_task, delete_task, list_tasks, retrieve_task
 from backend.db.session import get_db
 from fastapi import APIRouter, Depends, Form, status, Request, responses
@@ -12,15 +13,29 @@ from sqlalchemy.orm import Session
 templates = Jinja2Templates(directory='templates')
 router = APIRouter()
 
+
+
+
+
 @router.get("/")
 async def home(
         request: Request,
         alert: Optional[str] = None,
         db: Session = Depends(get_db)
 ):
+    token = request.cookies.get("access_token")
+    _, token = get_authorization_scheme_param(token)
+    owner = get_current_user(token, db)
+    profile = read_profile(owner)
     tasks = list_tasks(db=db)
     return templates.TemplateResponse(
-        "task/home.html", {"request": request, "tasks": tasks, "alert": alert}
+        "task/home.html", {
+            "request": request,
+            "tasks": tasks,
+            "alert": alert,
+            "owner": owner,
+            "profile": profile,
+        }
     )
 
 
