@@ -15,4 +15,4 @@ def save_profile(user_id: int, file: UploadFile):
     with open(save_name, "wb") as image:  # result -> bufferdwriter(object) with save_name
         image.write(file.file.read())
 
-    return {"save_name": save_name}
+    return save_name

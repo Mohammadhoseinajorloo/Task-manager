@@ -5,6 +5,7 @@ from backend.core.security import create_access_token
 from backend.db.repository.login import get_user
 from backend.db.session import get_db
 from backend.db.models.user import User
+from backend.db.repository.profile import add_profile
 from backend.core.upload_profile import save_profile
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Request, responses
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
@@ -73,7 +74,8 @@ async def upload_profile_image(
         db: Session = Depends(get_db),
         current_user: User = Depends(get_current_user)
 ):
-    save_profile(current_user.user_id, file)
+    save_name = save_profile(current_user.user_id, file)
+    add_profile(save_name, current_user, db)
     return responses.RedirectResponse(
         f"/?alert=image upload success",
         status_code=status.HTTP_200_OK,
